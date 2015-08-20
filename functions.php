@@ -32,3 +32,12 @@ function illyria_inline_styles() {
 }
 
 add_action("wp_print_scripts","illyria_inline_styles");
+
+/**
+ * Declare textdomain for this child theme.
+ * Translations can be filed in the /languages/ directory.
+ */
+function illyria_theme_setup() {
+    load_child_theme_textdomain( 'illyria', get_stylesheet_directory() . '/languages' );
+}
+add_action( 'after_setup_theme', 'illyria_theme_setup' );
