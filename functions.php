@@ -1,20 +1,20 @@
 <?php
 
-add_action( 'wp_enqueue_scripts', 'Illyria_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'illyria_enqueue_styles' );
 
-function Illyria_enqueue_styles() {
+function illyria_enqueue_styles() {
     wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
 }
 
-function Illyria_custom_script_fix() {
+function illyria_custom_script_fix() {
    
-	wp_enqueue_script('Illyria_script_child',get_stylesheet_directory_uri().'/js/wrapall.js', array('jquery') );
+	wp_enqueue_script('illyria_script_child',get_stylesheet_directory_uri().'/js/wrapall.js', array('jquery') );
 	
 }
 
-add_action( 'wp_enqueue_scripts', 'Illyria_custom_script_fix', 100 );
+add_action( 'wp_enqueue_scripts', 'illyria_custom_script_fix', 100 );
 
-function Illyria_inline_styles() {
+function illyria_inline_styles() {
 	?>
 	<style type="text/css">
 
@@ -31,21 +31,21 @@ function Illyria_inline_styles() {
 	<?php
 }
 
-add_action("wp_print_scripts","Illyria_inline_styles");
+add_action("wp_print_scripts","illyria_inline_styles");
 
 /**
  * Declare textdomain for this child theme.
  * Translations can be filed in the /languages/ directory.
  */
-function Illyria_theme_setup() {
-    load_child_theme_textdomain( 'Illyria', get_stylesheet_directory() . '/languages' );
+function illyria_theme_setup() {
+    load_child_theme_textdomain( 'illyria', get_stylesheet_directory() . '/languages' );
 }
-add_action( 'after_setup_theme', 'Illyria_theme_setup' );
+add_action( 'after_setup_theme', 'illyria_theme_setup' );
 
 /**
  * Notice in Customize to announce the theme is not maintained anymore
  */
-function Illyria_customize_register( $wp_customize ) {
+function illyria_customize_register( $wp_customize ) {
 
 	require_once get_stylesheet_directory() . '/class-ti-notify.php';
 
@@ -56,35 +56,35 @@ function Illyria_customize_register( $wp_customize ) {
 			$wp_customize,
 			'ti-notify',
 			array( /* translators: Link to the recommended theme */
-				'text'     => sprintf( __( 'This theme is not maintained anymore, check-out our latest free one-page theme: %1$s.','Illyria' ), sprintf( '<a href="' . admin_url( 'theme-install.php?theme=hestia' ) . '">%s</a>', 'Hestia' ) ),
+				'text'     => sprintf( __( 'This theme is not maintained anymore, check-out our latest free one-page theme: %1$s.','illyria' ), sprintf( '<a href="' . admin_url( 'theme-install.php?theme=hestia' ) . '">%s</a>', 'Hestia' ) ),
 				'priority' => 0,
 			)
 		)
 	);
 
-	$wp_customize->add_setting( 'Illyria-notify', array(
+	$wp_customize->add_setting( 'illyria-notify', array(
 		'sanitize_callback' => 'esc_html',
 	) );
 
-	$wp_customize->add_control( 'Illyria-notify', array(
-		'label'    => __( 'Notification', 'Illyria' ),
+	$wp_customize->add_control( 'illyria-notify', array(
+		'label'    => __( 'Notification', 'illyria' ),
 		'section'  => 'ti-notify',
 		'priority' => 1,
 	) );
 }
-add_action( 'customize_register', 'Illyria_customize_register' );
+add_action( 'customize_register', 'illyria_customize_register' );
 
 /**
  * Notice in admin dashboard to announce the theme is not maintained anymore
  */
-function Illyria_admin_notice() {
+function illyria_admin_notice() {
 
 	global $pagenow;
 
 	if ( is_admin() && ( 'themes.php' == $pagenow ) && isset( $_GET['activated'] ) ) {
 		echo '<div class="updated notice is-dismissible"><p>';
-		printf( /* translators: link to the recommended theme */ __( 'This theme is not maintained anymore, check-out our latest free one-page theme: %1$s.','Illyria' ), sprintf( '<a href="' . admin_url( 'theme-install.php?theme=hestia' ) . '">%s</a>', 'Hestia' ) );
+		printf( /* translators: link to the recommended theme */ __( 'This theme is not maintained anymore, check-out our latest free one-page theme: %1$s.','illyria' ), sprintf( '<a href="' . admin_url( 'theme-install.php?theme=hestia' ) . '">%s</a>', 'Hestia' ) );
 		echo '</p></div>';
 	}
 }
-add_action( 'admin_notices', 'Illyria_admin_notice', 99 );
+add_action( 'admin_notices', 'illyria_admin_notice', 99 );
