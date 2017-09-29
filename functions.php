@@ -41,3 +41,50 @@ function illyria_theme_setup() {
     load_child_theme_textdomain( 'illyria', get_stylesheet_directory() . '/languages' );
 }
 add_action( 'after_setup_theme', 'illyria_theme_setup' );
+
+/**
+ * Notice in Customize to announce the theme is not maintained anymore
+ */
+function illyria_customize_register( $wp_customize ) {
+
+	require_once get_stylesheet_directory() . '/class-ti-notify.php';
+
+	$wp_customize->register_section_type( 'Ti_Notify' );
+
+	$wp_customize->add_section(
+		new Ti_Notify(
+			$wp_customize,
+			'ti-notify',
+			array( /* translators: Link to the recommended theme */
+				'text'     => sprintf( __( 'This theme is not maintained anymore, check-out our latest free one-page theme: %1$s.','illyria' ), sprintf( '<a href="' . admin_url( 'theme-install.php?theme=hestia' ) . '">%s</a>', 'Hestia' ) ),
+				'priority' => 0,
+			)
+		)
+	);
+
+	$wp_customize->add_setting( 'illyria-notify', array(
+		'sanitize_callback' => 'esc_html',
+	) );
+
+	$wp_customize->add_control( 'illyria-notify', array(
+		'label'    => __( 'Notification', 'illyria' ),
+		'section'  => 'ti-notify',
+		'priority' => 1,
+	) );
+}
+add_action( 'customize_register', 'illyria_customize_register' );
+
+/**
+ * Notice in admin dashboard to announce the theme is not maintained anymore
+ */
+function illyria_admin_notice() {
+
+	global $pagenow;
+
+	if ( is_admin() && ( 'themes.php' == $pagenow ) && isset( $_GET['activated'] ) ) {
+		echo '<div class="updated notice is-dismissible"><p>';
+		printf( /* translators: link to the recommended theme */ __( 'This theme is not maintained anymore, check-out our latest free one-page theme: %1$s.','illyria' ), sprintf( '<a href="' . admin_url( 'theme-install.php?theme=hestia' ) . '">%s</a>', 'Hestia' ) );
+		echo '</p></div>';
+	}
+}
+add_action( 'admin_notices', 'illyria_admin_notice', 99 );
